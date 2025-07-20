@@ -177,23 +177,48 @@ class HangmanGame {
     endGame(won) {
         this.gameEnded = true; // Mark game as ended
         const message = won ? 'Congratulations! You won!' : `Game Over! The phrase was: ${this.currentPhrase.toUpperCase()}`;
+        
+        // Create game over message and button container
+        const gameOverContainer = document.createElement('div');
+        gameOverContainer.className = 'game-over-container';
+        
+        // Create message paragraph
+        const messageP = document.createElement('p');
+        messageP.textContent = message;
+        gameOverContainer.appendChild(messageP);
+        
+        // Set the message in the original location
         this.gameStatus.textContent = message;
+        
+        // Create restart buttons for both locations
+        const createRestartButton = () => {
+            const button = document.createElement('button');
+            button.textContent = 'Play Again';
+            button.className = 'play-again-btn';
+            button.addEventListener('click', () => {
+                this.gameEnded = false;
+                this.initializeGame();
+                // Remove the top game over container when restarting
+                const existingContainer = document.querySelector('.game-over-container');
+                if (existingContainer) {
+                    existingContainer.remove();
+                }
+            });
+            return button;
+        };
+        
+        // Add button to both containers
+        this.gameStatus.appendChild(createRestartButton());
+        gameOverContainer.appendChild(createRestartButton());
+        
+        // Insert the game over container at the top of the game
+        document.querySelector('#hangman-canvas').insertAdjacentElement('beforebegin', gameOverContainer);
         
         // Disable all letter buttons
         const buttons = this.lettersContainer.getElementsByClassName('letter-btn');
         for (const button of buttons) {
             button.disabled = true;
         }
-        
-        // Add restart button
-        const restartButton = document.createElement('button');
-        restartButton.textContent = 'Play Again';
-        restartButton.style.marginTop = '20px';
-        restartButton.addEventListener('click', () => {
-            this.gameEnded = false; // Reset game ended state
-            this.initializeGame();
-        });
-        this.gameStatus.appendChild(restartButton);
     }
 
     drawGallows() {
