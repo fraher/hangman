@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hangman Game</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Hangman Game</h1>
+        <div id="game-container">
+            <canvas id="hangman-canvas" width="300" height="300"></canvas>
+            <div id="word-display"></div>
+            <div id="category"></div>
+            <div id="letters-container"></div>
+            <div id="game-status"></div>
+        </div>
+    </div>
+    <script src="js/phrases.js"></script>
+    <script src="js/game.js"></script>
+    <script>
+        // Initialize the game when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            new HangmanGame();
+        });
+    </script>
+</body>
+</html>
